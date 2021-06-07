@@ -108,17 +108,19 @@ router.get('/:name', (req, res) => {
 });
 
 router.post('/', checkIfLoggedIn, (req, res) => {
-  let movie = req.body;
+  let newMovie = req.body;
 
-  if (movie.name) {
+ const foundMovie = movies.find((movie) => movie.name == newMovie.name);
+
+  if (foundMovie) {
     return res.status(400)
       .json({ msg: 'Movie seems to already have an id assigned' });
   }
 
-  movie.name = movies.length + 1;
-  movie.rating = 0;
-  movies.push(movie);
-  return res.status(200).json(movie);
+ // movie.name = movies.length + 1;
+  //movie.rating = 0;
+  movies.push(newMovie);
+  return res.status(200).json(newMovie);
 });
 
 router.patch('/:name', checkIfLoggedIn, (req, res) => {
